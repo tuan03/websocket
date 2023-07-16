@@ -1,6 +1,7 @@
 ## Websocket
 - Là công nghệ cho phép giao tiếp 2 chiều giữa client và server bằng cách sử dụng TCP socket => hiệu quả, ít tốn kém
 - Giao thức chuẩn thông thường của WebSocket là `ws://`, giao thức secure mã hóa là `wss://`
+- Máy chủ WebSocket có thể được viết bằng bất kỳ ngôn ngữ lập trình phía máy chủ nào có khả năng với [ổ cắm Berkeley](https://en.wikipedia.org/wiki/Berkeley_sockets) , chẳng hạn như C(++), Python, php, nodejs,.....
 - Dữ liệu truyền tải thông qua giao thức HTTP (thường dùng với kĩ thuật Ajax) chứa nhiều dữ liệu không cần thiết trong phần header. Một header request/response của HTTP có kích thước khoảng 871 byte. Trong khi đó, socket sau khi đã kết nối thì kích thước header khoảng 2 byte. 
 	- Ví dụ với 10k lượt request:
 		-  HTTP: 871 x 10,000 = 8,710,000 bytes = 69,680,000 bits per second (66 Mbps)
@@ -46,6 +47,3 @@
 		-  Mã hóa kết quả vừa nhận được bằng Base64 để được `HSmrc0sMlYUkAGmm5OPpG2HaGWk=`. 
 		- Gửi response lại client kèm với giá trị Sec-WebSocket-Accept chính là chuỗi kết quả vừa tạo ra.
 	- Client sẽ kiểm tra status code (phải bằng 101) và Sec-WebSocket-Accept xem có đúng với kết quả mong đợi không và thực hiện kết nối.
-
-
-
