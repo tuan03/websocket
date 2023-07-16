@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>WebSocket Client</title>
+</head>
+<body>
+  <h1>WebSocket Client</h1>
+  <textarea id="messages" rows="10" cols="50"></textarea>
+  <br>
+  <input type="text" id="message" placeholder="Nhập tin nhắn">
+  <button onclick="sendMessage()">Gửi</button>
+  <button onclick="closes()">Đóng kết nối</button>
+  <script>
+    // Kết nối tới máy chủ WebSocket
+    const ws = new WebSocket('ws://192.168.1.6:8080');
+    // Xử lý sự kiện khi kết nối thành công
+    ws.onopen = () => {
+      addToChat('Kết nối đã thiết lập');
+      
+    };
+
+    // Xử lý sự kiện khi nhận dữ liệu từ máy chủ
+    ws.onmessage = (event) => {
+      addToChat('Nhận từ máy chủ: ' + event.data);
+    };
+
+    // Xử lý sự kiện khi đóng kết nối
+    ws.onclose = () => {
+      addToChat('Đã đóng kết nối từ server');
+    };
+    ws.addEventListener("tuan",()=>{
+        addToChat('tuan');
+    })
+
+    // Xử lý sự kiện khi có lỗi xảy ra
+    ws.onerror = (error) => {
+      addToChat('Lỗi: ' + error.message);
+    };
+
+    function closes(){
+        ws.close(1000, 'Đóng kết nối bình thường');
+    }
+//     window.addEventListener('beforeunload', () => {
+//   // Đóng kết nối trước khi tab được đóng
+//   ws.close(1000, 'Người dùng đã rời khỏi trang.');
+// });
+    // Hàm gửi tin nhắn đến máy chủ
+    function sendMessage() {
+      const messageInput = document.getElementById('message');
+      const message = messageInput.value;
+      ws.send(message);
+      addToChat('Đã gửi: ' + message);
+      messageInput.value = '';
+    }
+
+    // Hàm hiển thị thông điệp trên textarea
+    function addToChat(message) {
+      const messagesTextarea = document.getElementById('messages');
+      messagesTextarea.value += message + '\n';
+    }
+  </script>
+</body>
+</html>
